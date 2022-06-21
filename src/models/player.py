@@ -402,6 +402,6 @@ class Player(BaseModel):
     image_url: Optional[str]
     school: School
     position: Position
-    team: Team
+    team: Optional[Team]
     seasons: Optional[Seasons]
     game_by_game: Optional[GameByGame]
