@@ -1,0 +1,7 @@
+black
+datamodel-code-generator
+flake8
+mypy
+pytest
+python-dotenv
+types-requests
