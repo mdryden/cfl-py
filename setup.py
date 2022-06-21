@@ -9,7 +9,7 @@ setup(
     license="MIT",
     keywords="CFL API",
     url="https://github.com/mdryden/cfl-py",
-    packages=["an_example_pypi_project", "tests"],
+    packages=["src"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Other/Nonlisted Topic",
