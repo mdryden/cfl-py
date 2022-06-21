@@ -11,20 +11,20 @@ from ..proxy import Proxy
 
 class GameClient:
     def __init__(self, proxy: Proxy, season: int, game_id: int):
-        assert season, "Season must be provided"
-        assert game_id, "GameId must be provided"
+        assert season, "season must be provided"
+        assert game_id, "game_id must be provided"
         self.proxy = proxy
         self.season = season
         self.game_id = game_id
-        self.includes: List[str] = []
+        self.__includes: List[str] = []
 
     def get(self) -> Optional[Game]:
         path = f"games/{self.season}/game/{self.game_id}"
 
-        if self.includes:
+        if self.__includes:
             path = f"{path}?include="
 
-            for include in set(self.includes):
+            for include in set(self.__includes):
                 path += f"{include},"
 
             path = path[:-1]  # strip trailing comma
@@ -38,23 +38,23 @@ class GameClient:
             return Game(**data[0])
 
     def with_boxscore(self) -> GameClient:
-        self.includes.append("boxscore")
+        self.__includes.append("boxscore")
         return self
 
     def with_play_by_play(self) -> GameClient:
-        self.includes.append("play_by_play")
+        self.__includes.append("play_by_play")
         return self
 
     def with_rosters(self) -> GameClient:
-        self.includes.append("rosters")
+        self.__includes.append("rosters")
         return self
 
     def with_penalties(self) -> GameClient:
-        self.includes.append("penalties")
+        self.__includes.append("penalties")
         return self
 
     def with_play_reviews(self) -> GameClient:
-        self.includes.append("play_reviews")
+        self.__includes.append("play_reviews")
         return self
 
 
@@ -172,7 +172,7 @@ class GamesClient:
     def __init__(self, proxy: Proxy, season: Optional[int]):
         self.season = season
         self.proxy = proxy
-        self.filters: List[GamesFilter] = []
+        self.__filters: List[GamesFilter] = []
 
     def get(self, page_number: int = 1, page_size: int = 20) -> List[Game]:
         """
@@ -187,7 +187,7 @@ class GamesClient:
 
         filter_string = ""
 
-        for filter in set(self.filters):
+        for filter in set(self.__filters):
             filter_string += f"&{str(filter)}"
 
         if "?" in path:
@@ -200,7 +200,7 @@ class GamesClient:
         return [Game(**x) for x in data]
 
     def filter(self, filter: GamesFilter) -> GamesClient:
-        self.filters.append(filter)
+        self.__filters.append(filter)
         return self
 
     def game(self, game_id: int) -> GameClient:

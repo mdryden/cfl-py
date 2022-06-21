@@ -1,6 +1,7 @@
 from typing import Callable, Optional
 
 from src.clients.games import GamesClient
+from src.clients.players import PlayersClient
 
 from .proxy import Proxy
 
@@ -25,3 +26,10 @@ class Client:
             cls.proxy
         ), "Client has not been initialized, call Client.setup() before using"
         return GamesClient(cls.proxy, season)
+
+    @classmethod
+    def players(cls) -> PlayersClient:
+        assert (
+            cls.proxy
+        ), "Client has not been initialized, call Client.setup() before using"
+        return PlayersClient(cls.proxy)

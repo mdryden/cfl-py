@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="CFLPy",
-    version="0.0.138",
+    version="0.0.1+cfl1.38",
     author="Michael Dryden",
     author_email="mjdryden@gmail.com",
     description=("An implementation of the CFL's public API (api.cfl.ca) in Python."),

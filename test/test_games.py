@@ -28,31 +28,30 @@ def test_get_one_returns_list():
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_boxscore(season, game_id):
     game = Client.games(season).game(game_id).with_boxscore().get()
-    assert game
+    assert game and game.boxscore
 
 
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_play_by_play(season, game_id):
     game = Client.games(season).game(game_id).with_play_by_play().get()
-    assert game
+    assert game and game.play_by_play
 
 
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_rosters(season, game_id):
     game = Client.games(season).game(game_id).with_rosters().get()
-    assert game
+    assert game and game.rosters
 
 
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_penalties(season, game_id):
     game = Client.games(season).game(game_id).with_penalties().get()
-    assert game
+    assert game and game.penalties
 
 
-@pytest.mark.parametrize("season,game_id", test_games)
-def test_can_get_play_reviews(season, game_id):
-    game = Client.games(season).game(game_id).with_play_reviews().get()
-    assert game
+def test_can_get_play_reviews():
+    game = Client.games(2022).game(6217).with_play_reviews().get()
+    assert game and game.play_reviews
 
 
 @pytest.mark.parametrize(
