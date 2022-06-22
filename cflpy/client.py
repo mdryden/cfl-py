@@ -1,9 +1,8 @@
 from typing import Callable, Optional
 
-from src.clients.games import GamesClient
-from src.clients.players import PlayersClient
-
-from .proxy import Proxy
+from cflpy.clients.games import GamesClient
+from cflpy.clients.players import PlayersClient
+from cflpy.proxy import Proxy
 
 
 class Client:

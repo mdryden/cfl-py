@@ -4,7 +4,7 @@ from typing import Callable, Dict, List, Optional
 import requests
 from ratelimiter import RateLimiter
 
-from .exceptions import ApiException
+from cflpy.exceptions import ApiException
 
 
 class Proxy:

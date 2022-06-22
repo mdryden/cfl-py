@@ -4,9 +4,8 @@ from typing import List, Literal, Optional
 
 from pydantic import BaseModel
 
-from src.models.game import Game
-
-from ..proxy import Proxy
+from cflpy.models.game import Game
+from cflpy.proxy import Proxy
 
 
 class GameClient:
@@ -56,6 +55,15 @@ class GameClient:
     def with_play_reviews(self) -> GameClient:
         self.__includes.append("play_reviews")
         return self
+
+    def with_all(self) -> GameClient:
+        return (
+            self.with_boxscore()
+            .with_play_by_play()
+            .with_rosters()
+            .with_penalties()
+            .with_play_reviews()
+        )
 
 
 class GamesFilter(BaseModel):
@@ -204,5 +212,5 @@ class GamesClient:
         return self
 
     def game(self, game_id: int) -> GameClient:
-        assert self.season, "Season must be provided"
+        assert self.season, "Season must be provided to fetch individual games"
         return GameClient(self.proxy, self.season, game_id)

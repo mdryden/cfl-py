@@ -5,9 +5,8 @@ from typing import List, Literal, Optional
 
 from pydantic import BaseModel
 
-from src.models.player import Player
-
-from ..proxy import Proxy
+from cflpy.models.player import Player
+from cflpy.proxy import Proxy
 
 
 class PlayerClient:

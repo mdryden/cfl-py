@@ -3,15 +3,18 @@ from test.asserts import are_equal
 
 import pytest
 
-from src.client import Client
-from src.clients.games import GamesFilter
-from src.models.game import Game
+from cflpy.client import Client
+from cflpy.clients.games import GamesFilter
+from cflpy.models.game import Game
 
 Client.setup(os.environ.get("CFL_API_KEY"))
 
 test_games = [
     (2022, 6215),
     (2022, 6217),
+    (2022, 6218),
+    (2022, 6290),
+    (2022, 6294),
 ]
 
 
@@ -31,9 +34,8 @@ def test_can_get_boxscore(season, game_id):
     assert game and game.boxscore
 
 
-@pytest.mark.parametrize("season,game_id", test_games)
-def test_can_get_play_by_play(season, game_id):
-    game = Client.games(season).game(game_id).with_play_by_play().get()
+def test_can_get_play_by_play():
+    game = Client.games(2022).game(6211).with_play_by_play().get()
     assert game and game.play_by_play
 
 
@@ -43,15 +45,20 @@ def test_can_get_rosters(season, game_id):
     assert game and game.rosters
 
 
-@pytest.mark.parametrize("season,game_id", test_games)
-def test_can_get_penalties(season, game_id):
-    game = Client.games(season).game(game_id).with_penalties().get()
+def test_can_get_penalties():
+    game = Client.games(2022).game(6217).with_penalties().get()
     assert game and game.penalties
 
 
 def test_can_get_play_reviews():
     game = Client.games(2022).game(6217).with_play_reviews().get()
     assert game and game.play_reviews
+
+
+@pytest.mark.parametrize("season,game_id", test_games)
+def test_can_get_all_data(season, game_id):
+    game = Client.games(season).game(game_id).with_all().get()
+    assert game
 
 
 @pytest.mark.parametrize(

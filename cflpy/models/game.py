@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel
@@ -56,7 +57,7 @@ class Team(BaseModel):
     abbreviation: str
     score: int
     venue_id: int
-    linescores: List[Linescore]
+    linescores: Optional[List[Linescore]]
     is_at_home: bool
     is_winner: Optional[bool]
 
@@ -67,18 +68,18 @@ class Down(BaseModel):
     yards: int
 
 
-class Offence(BaseModel):
-    offence_possession_time: str
+class TeamOffence(BaseModel):
+    offence_possession_time: Optional[str]
     downs: List[Down]
 
 
-class Turnovers(BaseModel):
+class TeamTurnovers(BaseModel):
     fumbles: int
     interceptions: int
     downs: int
 
 
-class Passing(BaseModel):
+class TeamPassing(BaseModel):
     pass_attempts: int
     pass_completions: int
     pass_net_yards: int
@@ -90,7 +91,7 @@ class Passing(BaseModel):
     pass_fumbles: int
 
 
-class Rushing(BaseModel):
+class TeamRushing(BaseModel):
     rush_attempts: int
     rush_net_yards: int
     rush_long: int
@@ -98,7 +99,7 @@ class Rushing(BaseModel):
     rush_long_touchdowns: int
 
 
-class Receiving(BaseModel):
+class TeamReceiving(BaseModel):
     receive_attempts: int
     receive_caught: int
     receive_yards: int
@@ -109,7 +110,7 @@ class Receiving(BaseModel):
     receive_fumbles: int
 
 
-class Punts(BaseModel):
+class TeamPunts(BaseModel):
     punts: int
     punt_yards: int
     punt_net_yards: int
@@ -121,7 +122,7 @@ class Punts(BaseModel):
     punts_returned: int
 
 
-class PuntReturns(BaseModel):
+class TeamPuntReturns(BaseModel):
     punt_returns: int
     punt_returns_yards: int
     punt_returns_touchdowns: int
@@ -129,7 +130,7 @@ class PuntReturns(BaseModel):
     punt_returns_touchdowns_long: int
 
 
-class KickReturns(BaseModel):
+class TeamKickReturns(BaseModel):
     kick_returns: int
     kick_returns_yards: int
     kick_returns_touchdowns: int
@@ -137,7 +138,7 @@ class KickReturns(BaseModel):
     kick_returns_touchdowns_long: int
 
 
-class FieldGoals(BaseModel):
+class TeamFieldGoals(BaseModel):
     field_goal_attempts: int
     field_goal_made: int
     field_goal_yards: int
@@ -146,7 +147,7 @@ class FieldGoals(BaseModel):
     field_goal_points: int
 
 
-class Kicking(BaseModel):
+class TeamKicking(BaseModel):
     kicks: int
     kick_yards: int
     kicks_net_yards: int
@@ -166,12 +167,12 @@ class TwoPointConverts(BaseModel):
     made: int
 
 
-class Converts(BaseModel):
+class TeamConverts(BaseModel):
     one_point_converts: OnePointConverts
     two_point_converts: TwoPointConverts
 
 
-class Defence(BaseModel):
+class TeamDefence(BaseModel):
     tackles_total: int
     tackles_defensive: int
     tackles_special_teams: int
@@ -184,7 +185,7 @@ class Defence(BaseModel):
     defensive_safeties: int
 
 
-class Penalties(BaseModel):
+class TeamPenalties(BaseModel):
     total: int
     yards: int
     offence_total: int
@@ -205,7 +206,7 @@ class Player(BaseModel):
     birth_date: str
 
 
-class PassingItem(BaseModel):
+class PlayerPassing(BaseModel):
     player: Player
     pass_attempts: int
     pass_completions: int
@@ -218,7 +219,7 @@ class PassingItem(BaseModel):
     pass_fumbles: int
 
 
-class RushingItem(BaseModel):
+class PlayerRushing(BaseModel):
     player: Player
     rush_attempts: int
     rush_net_yards: int
@@ -227,7 +228,7 @@ class RushingItem(BaseModel):
     rush_long_touchdowns: int
 
 
-class ReceivingItem(BaseModel):
+class PlayerReceiving(BaseModel):
     player: Player
     receive_attempts: int
     receive_caught: int
@@ -239,7 +240,7 @@ class ReceivingItem(BaseModel):
     receive_fumbles: int
 
 
-class Punt(BaseModel):
+class PlayerPunts(BaseModel):
     player: Player
     punts: int
     punt_yards: int
@@ -252,7 +253,7 @@ class Punt(BaseModel):
     punts_returned: int
 
 
-class PuntReturn(BaseModel):
+class PlayerPuntReturns(BaseModel):
     player: Player
     punt_returns: int
     punt_returns_yards: int
@@ -261,7 +262,7 @@ class PuntReturn(BaseModel):
     punt_returns_touchdowns_long: int
 
 
-class KickReturn(BaseModel):
+class PlayerKickReturns(BaseModel):
     player: Player
     kick_returns: int
     kick_returns_yards: int
@@ -270,7 +271,7 @@ class KickReturn(BaseModel):
     kick_returns_touchdowns_long: int
 
 
-class FieldGoal(BaseModel):
+class PlayerFieldGoals(BaseModel):
     player: Player
     field_goal_attempts: int
     field_goal_made: int
@@ -281,7 +282,16 @@ class FieldGoal(BaseModel):
     field_goal_points: int
 
 
-class KickingItem(BaseModel):
+class PlayerFieldGoalReturns(BaseModel):
+    player: Player
+    field_goal_returns: int
+    field_goal_returns_yards: int
+    field_goal_returns_touchdowns: int
+    field_goal_returns_long: int
+    field_goal_returns_touchdowns_long: int
+
+
+class PlayerKicking(BaseModel):
     player: Player
     kicks: int
     kick_yards: int
@@ -292,13 +302,18 @@ class KickingItem(BaseModel):
     kicks_onside: int
 
 
-class OnePointConvert(BaseModel):
+class PlayerOnePointConverts(BaseModel):
     player: Player
     one_point_converts_attempts: int
     one_point_converts_made: int
 
 
-class DefenceItem(BaseModel):
+class PlayerTwoPointConverts(BaseModel):
+    player: Player
+    two_point_converts_made: int
+
+
+class PlayerDefence(BaseModel):
     player: Player
     tackles_total: int
     tackles_defensive: int
@@ -311,36 +326,36 @@ class DefenceItem(BaseModel):
 
 
 class Players(BaseModel):
-    passing: List[PassingItem]
-    rushing: List[RushingItem]
-    receiving: List[ReceivingItem]
-    punts: List[Punt]
-    punt_returns: List[PuntReturn]
-    kick_returns: List[KickReturn]
-    field_goals: List[FieldGoal]
-    field_goal_returns: List
-    kicking: List[KickingItem]
-    one_point_converts: List[OnePointConvert]
-    two_point_converts: List
-    defence: List[DefenceItem]
+    passing: Optional[List[PlayerPassing]]
+    rushing: Optional[List[PlayerRushing]]
+    receiving: Optional[List[PlayerReceiving]]
+    punts: Optional[List[PlayerPunts]]
+    punt_returns: Optional[List[PlayerPuntReturns]]
+    kick_returns: Optional[List[PlayerKickReturns]]
+    field_goals: Optional[List[PlayerFieldGoals]]
+    field_goal_returns: Optional[List[PlayerFieldGoalReturns]]
+    kicking: Optional[List[PlayerKicking]]
+    one_point_converts: Optional[List[PlayerOnePointConverts]]
+    two_point_converts: Optional[List[PlayerTwoPointConverts]]
+    defence: Optional[List[PlayerDefence]]
 
 
 class BoxscoreTeam(BaseModel):
     abbreviation: str
     team_id: int
-    offence: Optional[Offence]
-    turnovers: Optional[Turnovers]
-    passing: Optional[Passing]
-    rushing: Optional[Rushing]
-    receiving: Optional[Receiving]
-    punts: Optional[Punts]
-    punt_returns: Optional[PuntReturns]
-    kick_returns: Optional[KickReturns]
-    field_goals: Optional[FieldGoals]
-    kicking: Optional[Kicking]
-    converts: Optional[Converts]
-    defence: Optional[Defence]
-    penalties: Optional[Penalties]
+    offence: Optional[TeamOffence]
+    turnovers: Optional[TeamTurnovers]
+    passing: Optional[TeamPassing]
+    rushing: Optional[TeamRushing]
+    receiving: Optional[TeamReceiving]
+    punts: Optional[TeamPunts]
+    punt_returns: Optional[TeamPuntReturns]
+    kick_returns: Optional[TeamKickReturns]
+    field_goals: Optional[TeamFieldGoals]
+    kicking: Optional[TeamKicking]
+    converts: Optional[TeamConverts]
+    defence: Optional[TeamDefence]
+    penalties: Optional[TeamPenalties]
     players: Players
 
 
@@ -430,25 +445,6 @@ class RosterTeam(BaseModel):
     roster: List[RosterItem]
 
 
-class RosterItem1(BaseModel):
-    cfl_central_id: int
-    first_name: str
-    middle_name: str
-    last_name: str
-    birth_date: str
-    uniform: int
-    position: str
-    is_national: bool
-    is_starter: bool
-    is_inactive: bool
-
-
-class Team22(BaseModel):
-    abbreviation: str
-    team_id: int
-    roster: List[RosterItem1]
-
-
 class RosterTeams(BaseModel):
     team_1: RosterTeam
     team_2: RosterTeam
@@ -509,7 +505,7 @@ class PlayReview(BaseModel):
 
 class Game(BaseModel):
     game_id: int
-    date_start: str
+    date_start: datetime
     game_number: int
     week: int
     season: int

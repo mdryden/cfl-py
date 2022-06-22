@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from src.client import Client
+from cflpy.client import Client
 
 Client.setup(os.environ.get("CFL_API_KEY"))
 

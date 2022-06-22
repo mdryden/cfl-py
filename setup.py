@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_namespace_packages, setup
 
 setup(
     name="CFLPy",
@@ -9,7 +9,7 @@ setup(
     license="MIT",
     keywords="CFL API",
     url="https://github.com/mdryden/cfl-py",
-    packages=["src"],
+    packages=find_namespace_packages(include=["cflpy.*"]),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Other/Nonlisted Topic",
