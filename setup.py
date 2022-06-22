@@ -2,7 +2,7 @@ from setuptools import find_namespace_packages, setup
 
 setup(
     name="CFLPy",
-    version="0.0.1+cfl1.38",
+    version="0.0.2+cfl1.38",
     author="Michael Dryden",
     author_email="mjdryden@gmail.com",
     description=("An implementation of the CFL's public API (api.cfl.ca) in Python."),

@@ -57,7 +57,7 @@ class Proxy:
                     pause_for = 60
                     _log(f"Hit CFL's rate limit, pausing for {pause_for} seconds")
                     time.sleep(pause_for)
-                    return _get(path)
+                    return _get()
                 raise ApiException(response.text, url=url_no_key)
 
         return _get()
