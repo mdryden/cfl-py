@@ -3,11 +3,11 @@ from test.asserts import are_equal
 
 import pytest
 
-from cflpy.client import Client
+from cflpy.client import CflPy
 from cflpy.clients.games import GamesFilter
 from cflpy.models.game import Game
 
-Client.setup(os.environ.get("CFL_API_KEY"))
+CflPy.setup(os.environ.get("CFL_API_KEY"))
 
 test_games = [
     (2022, 6215),
@@ -19,45 +19,45 @@ test_games = [
 
 
 def test_get_many_returns_list():
-    games = Client.games(2022).get()
+    games = CflPy.games(2022).get()
     assert isinstance(games, list)
 
 
 def test_get_one_returns_list():
-    game = Client.games(2022).game(6217).get()
+    game = CflPy.games(2022).game(6217).get()
     assert isinstance(game, Game)
 
 
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_boxscore(season, game_id):
-    game = Client.games(season).game(game_id).with_boxscore().get()
+    game = CflPy.games(season).game(game_id).with_boxscore().get()
     assert game and game.boxscore
 
 
 def test_can_get_play_by_play():
-    game = Client.games(2022).game(6211).with_play_by_play().get()
+    game = CflPy.games(2022).game(6211).with_play_by_play().get()
     assert game and game.play_by_play
 
 
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_rosters(season, game_id):
-    game = Client.games(season).game(game_id).with_rosters().get()
+    game = CflPy.games(season).game(game_id).with_rosters().get()
     assert game and game.rosters
 
 
 def test_can_get_penalties():
-    game = Client.games(2022).game(6217).with_penalties().get()
+    game = CflPy.games(2022).game(6217).with_penalties().get()
     assert game and game.penalties
 
 
 def test_can_get_play_reviews():
-    game = Client.games(2022).game(6217).with_play_reviews().get()
+    game = CflPy.games(2022).game(6217).with_play_reviews().get()
     assert game and game.play_reviews
 
 
 @pytest.mark.parametrize("season,game_id", test_games)
 def test_can_get_all_data(season, game_id):
-    game = Client.games(season).game(game_id).with_all().get()
+    game = CflPy.games(season).game(game_id).with_all().get()
     assert game
 
 
@@ -69,7 +69,7 @@ def test_can_get_all_data(season, game_id):
     ],
 )
 def test_can_page_results(page_number, page_size, expected_first_game):
-    games = Client.games().get(page_number=page_number, page_size=page_size)
+    games = CflPy.games().get(page_number=page_number, page_size=page_size)
     assert games and games[0].game_id == expected_first_game
 
 
@@ -83,14 +83,14 @@ def test_can_page_results(page_number, page_size, expected_first_game):
     ],
 )
 def test_filter_results(filter: GamesFilter, expected_first_game):
-    games = Client.games().filter(filter).get()
+    games = CflPy.games().filter(filter).get()
     assert games
     are_equal(expected_first_game, games[0].game_id)
 
 
 def test_multiple_filters():
     games = (
-        Client.games(2022)
+        CflPy.games(2022)
         .filter(GamesFilter.event_type_id().is_not_equal_to(0))
         .filter(GamesFilter.team().is_equal_to("OTT"))
         .get()
@@ -100,6 +100,6 @@ def test_multiple_filters():
 
     expected = 6212
     actual = games[0].game_id
-    print(Client.proxy.last_url)
+    print(CflPy.proxy.last_url)
 
     are_equal(expected, actual)

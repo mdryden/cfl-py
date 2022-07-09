@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel
 
@@ -60,6 +60,15 @@ class Team(BaseModel):
     linescores: Optional[List[Linescore]]
     is_at_home: bool
     is_winner: Optional[bool]
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Team):
+            return False
+
+        return self.team_id == other.team_id
+
+    def __hash__(self) -> int:
+        return hash(repr(self))
 
 
 class Down(BaseModel):
@@ -398,7 +407,7 @@ class PlayersInPlay(BaseModel):
     primary_defender: Player
 
 
-class PlayByPlayItem(BaseModel):
+class Play(BaseModel):
     play_id: int
     play_sequence: int
     quarter: int
@@ -426,7 +435,7 @@ class PlayByPlayItem(BaseModel):
     play_summary: str
 
 
-class RosterItem(BaseModel):
+class RosterPlayer(BaseModel):
     cfl_central_id: int
     first_name: str
     middle_name: str
@@ -442,7 +451,7 @@ class RosterItem(BaseModel):
 class RosterTeam(BaseModel):
     abbreviation: str
     team_id: int
-    roster: List[RosterItem]
+    roster: List[RosterPlayer]
 
 
 class RosterTeams(BaseModel):
@@ -520,7 +529,7 @@ class Game(BaseModel):
     team_1: Team
     team_2: Team
     boxscore: Optional[Boxscore]
-    play_by_play: Optional[List[PlayByPlayItem]]
+    play_by_play: Optional[List[Play]]
     rosters: Optional[Rosters]
     penalties: Optional[List[Penalty]]
     play_reviews: Optional[List[PlayReview]]

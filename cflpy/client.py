@@ -2,10 +2,11 @@ from typing import Callable, Optional
 
 from cflpy.clients.games import GamesClient
 from cflpy.clients.players import PlayersClient
+from cflpy.clients.standings import StandingsClient
 from cflpy.proxy import Proxy
 
 
-class Client:
+class CflPy:
     proxy: Optional[Proxy] = None
 
     @classmethod
@@ -32,3 +33,10 @@ class Client:
             cls.proxy
         ), "Client has not been initialized, call Client.setup() before using"
         return PlayersClient(cls.proxy)
+
+    @classmethod
+    def standings(cls, season: int) -> StandingsClient:
+        assert (
+            cls.proxy
+        ), "Client has not been initialized, call Client.setup() before using"
+        return StandingsClient(cls.proxy, season)
