@@ -15,4 +15,9 @@ setup(
         "Topic :: Other/Nonlisted Topic",
         "License :: OSI Approved :: MIT License",
     ],
+    install_requires=[
+        "pydantic ~= 1.9.1",
+        "requests >= 2.26.0",
+        "ratelimiter ~= 1.2.0",
+    ],
 )
