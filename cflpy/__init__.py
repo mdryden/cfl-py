@@ -1,1 +1,1 @@
-from cflpy.client import CflPy  # noqa
+from cflpy.cfl_py import CflPy  # noqa

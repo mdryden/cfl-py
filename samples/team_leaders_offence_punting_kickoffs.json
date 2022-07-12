@@ -1,0 +1,21 @@
+{
+    "season": 2021,
+    "games_played": 14,
+    "punts": 106,
+    "punts_yards": 4912,
+    "punts_net_yards": 4315,
+    "punts_average": "46.3",
+    "punts_net_average": "40.7",
+    "punts_long": 67,
+    "punts_singles": 0,
+    "kickoffs": 36,
+    "kickoffs_yards": 2140,
+    "kickoffs_net_yards": 1428,
+    "kickoffs_average": "59.4",
+    "kickoffs_net_average": "39.7",
+    "kickoffs_long": 72,
+    "kickoffs_singles": 0,
+    "team_abbreviation": "OTT",
+    "team_location": "Ottawa",
+    "team_nickname": "Redblacks"
+}

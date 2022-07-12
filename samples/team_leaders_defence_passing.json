@@ -1,0 +1,22 @@
+{
+    "season": 2021,
+    "games_played": 14,
+    "points": 138,
+    "points_pgp": "9.9",
+    "attempts": 428,
+    "completions": 312,
+    "completion_pct": "72.9",
+    "attempts_pgp": "30.6",
+    "yards": 3812,
+    "yards_average": "8.9",
+    "yards_pgp": "272.3",
+    "touchdowns": 23,
+    "interceptions": 12,
+    "first_downs_passing": 179,
+    "first_downs_pct": "41.8",
+    "long": 77,
+    "sacks": 30,
+    "team_abbreviation": "OTT",
+    "team_location": "Ottawa",
+    "team_nickname": "Redblacks"
+}

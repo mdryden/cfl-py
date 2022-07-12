@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from cflpy.client import CflPy
+from cflpy.cfl_py import CflPy
 
 CflPy.setup(os.environ.get("CFL_API_KEY"))
 
@@ -34,30 +34,30 @@ test_players = [
     ],
 )
 def test_get_multiple(page_number):
-    players = CflPy.players().get(page_number=page_number)
+    players = CflPy.v1().players().get(page_number=page_number)
     assert players
 
 
 @pytest.mark.parametrize("cfl_central_id", test_players)
 def test_get_player(cfl_central_id):
-    player = CflPy.players().player(cfl_central_id).get()
+    player = CflPy.v1().players().player(cfl_central_id).get()
     assert player
 
 
 @pytest.mark.parametrize("cfl_central_id", test_players)
 def test_can_get_seasons(cfl_central_id):
-    player = CflPy.players().player(cfl_central_id).with_seasons().get()
+    player = CflPy.v1().players().player(cfl_central_id).with_seasons().get()
     assert player and player.seasons
 
 
 @pytest.mark.parametrize("cfl_central_id", test_players)
 def test_can_get_game_by_game(cfl_central_id):
-    player = CflPy.players().player(cfl_central_id).with_game_by_game().get()
+    player = CflPy.v1().players().player(cfl_central_id).with_game_by_game().get()
     assert player and player.game_by_game
 
 
 def test_can_get_current_team():
     """This test will require updating periodically, as it requires an up to date player."""
     cfl_central_id = 162746  # Bralon Addison
-    player = CflPy.players().player(cfl_central_id).with_current_team().get()
+    player = CflPy.v1().players().player(cfl_central_id).with_current_team().get()
     assert player and player.team and player.team.is_set
